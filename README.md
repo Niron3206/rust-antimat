@@ -11,4 +11,4 @@
 ## 🔧 Set up
 1. Create your own bot here: [Discord Applications](https://discord.com/developers/applications)
 2. Copy and paste your token in `.env` file. (Also, you can pick your own deleting percentage)
-3. Run in cmd/terminal: `cargo run --package rust-antimat --bin rust-antimat`
+3. Run in cmd/terminal: `cargo.exe run --package rust-antimat --bin rust-antimat`
