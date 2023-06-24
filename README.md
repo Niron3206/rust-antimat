@@ -2,7 +2,7 @@
 ![Bad_words](https://cdn.discordapp.com/attachments/695563421491396728/1121958530551922769/rustacean-badwords.png)
 
 # 🤬 rust-antimat
-**rust-antimat** — discord bot that deletes messages by their inappropriate content. It uses Levenshtein distance algorithm to define percentage of similarity with given list of words from `bad_words.txt` file. It has a message logging system, though.
+**rust-antimat** — discord bot that deletes messages by their inappropriate content. It uses [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) algorithm to define percentage of similarity with given list of words from `bad_words.txt` file. It has a message logging system, though.
 
 **Initially, it supports english and russian swears filtering, but you can add your words in `bad_words.txt`**
 
