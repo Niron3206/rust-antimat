@@ -28,7 +28,6 @@ impl EventHandler for Handler {
         let msg_text = extract_regular_chars(msg.content.to_lowercase().as_str());
 
         for word in msg_text.split(" ").into_iter() {
-            //let trslt_word = replace_engletters(word);
 
             let is_bad = unsafe{is_bad(&word, &BAD_WORDS, &msg.author)};
 
