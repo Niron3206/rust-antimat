@@ -33,15 +33,15 @@ impl EventHandler for Handler {
             let is_bad = unsafe{is_bad(&word, &BAD_WORDS, &msg.author)};
 
             if is_bad {     
-                return msg.delete(&ctx.http).await.expect("Не удалось удалить сообщение");            
+                return msg.delete(&ctx.http).await.expect("Couldn't delete the message.");            
             }
         }
 
     }
 
     async fn ready(&self, _: Context, ready: Ready) {
-        unsafe {BAD_WORDS = read_file("bad_words.txt").expect("Не смог прочесть строки файла"); }
-        println!("{} — онлайн", ready.user.tag());
+        unsafe {BAD_WORDS = read_file("bad_words.txt").expect("Couldn't read lines from file."); }
+        println!("{} — is online", ready.user.tag());
     }
 
 }
@@ -51,7 +51,7 @@ async fn main() -> Result<(), serenity::Error>{
 
     dotenv().ok();
 
-    let token = env::var("token").expect("Не нашёл токен в .env файле");
+    let token = env::var("token").expect("Didn't find token in `.env` file");
     let intents = GatewayIntents::non_privileged() | GatewayIntents::MESSAGE_CONTENT;
     Client::builder(token, intents).event_handler(Handler).await?.start().await
 
@@ -63,7 +63,7 @@ mod tests {
 
     #[test]
     fn extr() {
-        let test = extract_regular_chars("ух&%@^%(*^ ар)№$^(тем");
+        let test = extract_regular_chars("t&%@^%(*^e)№$^(st");
         println!("{}", test);
     }
 }

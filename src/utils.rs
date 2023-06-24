@@ -3,7 +3,6 @@ use chrono;
 use regex::Regex;
 use serenity::model::user::User;
 use std::cmp::{max, min};
-//use std::collections::HashMap;
 use std::{fs, env};
 
 pub fn extract_regular_chars(text: &str) -> String {
@@ -19,47 +18,17 @@ pub fn is_bad(target: &str, source: &Vec<String>, author: &User) -> bool {
         let ratio = lev(target, &word) as usize;
 
         if ratio >= percentage {
-            let log = format!("Автор сообщения — {}\nИзначальное слово — {}\nПроверочное слово — {}\nПроцентная схожесть — {}%",
+            let log = format!("Author — {}\nInitial word — {}\nValid word — {}\nPercent similarity — {}%",
                                          author.tag(), target, &word, ratio);
 
             let path = format!("./logs/{}.txt", chrono::offset::Local::now().format("%Y-%m-%d_%H.%M.%S"));
-            fs::write(path, log).expect("Не удалось логировать событие");
+            fs::write(path, log).expect("Couldn't log the event.");
             return true;
         }
     }
 
     false
 }
-
-/*
-pub fn replace_engletters(text: &str) -> String {
-
-    let mut text = String::from(text);
-
-    let letters = HashMap::from([
-        ("a", "а"),
-        ("b", "в"),
-        ("e", "е"),
-        ("k", "к"),
-        ("m", "м"),
-        ("h", "н"),
-        ("o", "о"),
-        ("p", "р"),
-        ("c", "с"),
-        ("t", "т"),
-        ("y", "у"),
-        ("x", "х"),
-    ]);
-
-    for (en, ru) in letters.iter() {
-        text = text.replace(en, ru);
-    }
-
-    text
-
-}
- */
-
 
 fn lev(target: &str, source: &str) -> f64 {
 
