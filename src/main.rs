@@ -2,6 +2,7 @@ use std::fs::File;
 use std::io::{BufReader, BufRead};
 use std::{env, io};
 use dotenv::dotenv;
+use std::sync::OnceLock;
 
 use utils::{extract_regular_chars, is_bad};
 
@@ -16,7 +17,7 @@ fn read_file(path: &str) -> io::Result<Vec<String>> {
     BufReader::new(File::open(path)?).lines().collect()
 }
 
-static mut BAD_WORDS: Vec<String> = vec![];
+static BAD_WORDS: OnceLock<Vec<String>> = OnceLock::new();
 
 struct Handler;
 
@@ -28,9 +29,8 @@ impl EventHandler for Handler {
         let msg_text = extract_regular_chars(msg.content.to_lowercase().as_str());
 
         for word in msg_text.split(" ").into_iter() {
-            //let trslt_word = replace_engletters(word);
 
-            let is_bad = unsafe{is_bad(&word, &BAD_WORDS, &msg.author)};
+            let is_bad = is_bad(&word, BAD_WORDS.get().unwrap(), &msg.author);
 
             if is_bad {     
                 return msg.delete(&ctx.http).await.expect("Couldn't delete the message.");            
@@ -40,7 +40,13 @@ impl EventHandler for Handler {
     }
 
     async fn ready(&self, _: Context, ready: Ready) {
-        unsafe {BAD_WORDS = read_file("bad_words.txt").expect("Couldn't read lines from file."); }
+
+        std::thread::spawn(|| {
+            BAD_WORDS.get_or_init(|| {
+                read_file("bad_words.txt").expect("Couldn't read lines from file.")
+            });
+        }).join().unwrap();
+        
         println!("{} — is online", ready.user.tag());
     }
 
