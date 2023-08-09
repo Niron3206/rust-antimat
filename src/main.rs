@@ -41,11 +41,9 @@ impl EventHandler for Handler {
 
     async fn ready(&self, _: Context, ready: Ready) {
 
-        std::thread::spawn(|| {
-            BAD_WORDS.get_or_init(|| {
-                read_file("bad_words.txt").expect("Couldn't read lines from file.")
-            });
-        }).join().unwrap();
+        BAD_WORDS.get_or_init(|| {
+            read_file("bad_words.txt").expect("Couldn't read lines from file.")
+        });
         
         println!("{} — is online", ready.user.tag());
     }
@@ -65,7 +63,7 @@ async fn main() -> Result<(), serenity::Error>{
 
 #[cfg(test)]
 mod tests {
-    use crate::{extract_regular_chars};
+    use crate::extract_regular_chars;
 
     #[test]
     fn extr() {
