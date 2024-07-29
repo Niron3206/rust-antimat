@@ -1,5 +1,5 @@
 
-![Bad_words](https://cdn.discordapp.com/attachments/695563421491396728/1121958530551922769/rustacean-badwords.png)
+![Bad_words](https://github.com/Niron3206/rust-antimat/raw/master/rustacean-badwords.png)
 
 **English** | [Русский](./README-ru.md)
 
